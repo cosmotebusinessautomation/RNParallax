@@ -1,5 +1,7 @@
 
 # RNParallax (react-native-parallax-header)
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/kyaroru/RNParallax.svg)](https://greenkeeper.io/)
 [![GitHub stars](https://img.shields.io/github/stars/kyaroru/RNParallax.svg)](https://github.com/kyaroru/RNParallax/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/kyaroru/RNParallax.svg)](https://github.com/kyaroru/RNParallax/network)
 [![GitHub issues](https://img.shields.io/github/issues/kyaroru/RNParallax.svg)](https://github.com/kyaroru/RNParallax/issues)
