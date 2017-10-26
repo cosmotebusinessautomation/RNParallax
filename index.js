@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import LinearGradient from 'react-native-linear-gradient';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
@@ -8,6 +9,7 @@ import {
   Text,
   View,
   Dimensions,
+  Image
 } from 'react-native';
 
 const {
@@ -82,7 +84,8 @@ class RNParallax extends Component {
   constructor() {
     super();
     this.state = {
-      scrollY: new Animated.Value(0),
+        scrollY: new Animated.Value(0),
+        offsetTop: 0
     };
   }
 
@@ -187,7 +190,7 @@ class RNParallax extends Component {
 
   renderHeaderForeground() {
     const { renderNavBar } = this.props;
-    
+
     return (
       <Animated.View
         style={[
@@ -209,27 +212,35 @@ class RNParallax extends Component {
     const imageScale = this.getImageScale();
 
     return (
-      <Animated.Image
-        style={[
-          styles.backgroundImage,
-          {
-            height: this.getHeaderMaxHeight(),
-            opacity: imageOpacity,
-            transform: [{ translateY: imageTranslate }, { scale: imageScale }],
-          },
-        ]}
-        source={backgroundImage}
-      />
+        <View>
+            <LinearGradient
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}
+                    colors={['#000000FF', '#ffffff11']}
+                    style={{ width: '100%', height: 100, position: 'absolute', zIndex: 1 }}
+            />
+            <Animated.Image
+                style={[
+                styles.backgroundImage,
+                {
+                    height: this.getHeaderMaxHeight(),
+                    opacity: imageOpacity,
+                    transform: [{ translateY: imageTranslate }, { scale: imageScale }],
+                },
+                ]}
+                source={{uri: backgroundImage}}
+            />
+        </View>
     );
   }
 
   renderPlainBackground() {
     const { backgroundColor } = this.props;
-    
+
     const imageOpacity = this.getImageOpacity();
     const imageTranslate = this.getImageTranslate();
     const imageScale = this.getImageScale();
-    
+
     return (
       <Animated.View
         style={{
@@ -245,23 +256,25 @@ class RNParallax extends Component {
   renderNavbarBackground() {
     const { navbarColor } = this.props;
     const navBarOpacity = this.getNavBarOpacity();
-    
+
     return (
-      <Animated.View
-        style={[
-          styles.header,
-          {
-            height: this.getHeaderHeight(),
-            backgroundColor: navbarColor,
-            opacity: navBarOpacity,
-          },
-        ]}
-      />
+        <Animated.Image
+            style={[
+            styles.header,
+            {
+                height: this.getHeaderHeight(),
+                backgroundColor: navbarColor,
+                opacity: navBarOpacity,
+                width: '100%'
+            },
+            ]}
+            source={require('../../src/assets/img/linear-gradient-news.png')}
+        />
     );
   }
 
   renderHeaderBackground() {
-    const { backgroundImage, backgroundColor } = this.props;    
+    const { backgroundImage, backgroundColor } = this.props;
     const imageOpacity = this.getImageOpacity();
 
     return (
@@ -283,14 +296,20 @@ class RNParallax extends Component {
 
   renderScrollView() {
     const { renderContent, scrollEventThrottle } = this.props;
-    
+
     return (
       <Animated.ScrollView
         style={styles.scrollView}
         scrollEventThrottle={scrollEventThrottle}
+        showsVerticalScrollIndicator={false}
         onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-        )}
+            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+            {
+              listener: event => {
+                this.setState({ offsetTop: event.nativeEvent.contentOffset.y })
+              },
+            },
+          )}
       >
         <View style={{ marginTop: this.getHeaderMaxHeight() }}>
           {renderContent()}
@@ -306,7 +325,7 @@ class RNParallax extends Component {
         {this.renderNavbarBackground()}
         {this.renderHeaderBackground()}
         {this.renderHeaderTitle()}
-        {this.renderHeaderForeground()}        
+        {this.renderHeaderForeground()}
       </View>
     );
   }
@@ -316,7 +335,7 @@ RNParallax.propTypes = {
   renderNavBar: PropTypes.func,
   renderContent: PropTypes.func.isRequired,
   backgroundColor: PropTypes.string,
-  backgroundImage: PropTypes.number,
+  backgroundImage: PropTypes.string,
   navbarColor: PropTypes.string,
   title: PropTypes.string,
   titleStyle: PropTypes.number,

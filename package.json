@@ -1,25 +1,90 @@
 {
-  "name": "react-native-parallax-header",
-  "version": "1.0.5",
+  "_args": [
+    [
+      {
+        "raw": "react-native-parallax-header",
+        "scope": null,
+        "escapedName": "react-native-parallax-header",
+        "name": "react-native-parallax-header",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\Users\\epapadaki\\IdeaProjects\\mynet-mobile\\mynet"
+    ]
+  ],
+  "_from": "react-native-parallax-header@latest",
+  "_id": "react-native-parallax-header@1.0.5",
+  "_inCache": true,
+  "_location": "/react-native-parallax-header",
+  "_nodeVersion": "6.11.1",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/react-native-parallax-header-1.0.5.tgz_1506998553708_0.6343699574936181"
+  },
+  "_npmUser": {
+    "name": "kyaroru",
+    "email": "kyaroru@outlook.com"
+  },
+  "_npmVersion": "3.10.10",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "react-native-parallax-header",
+    "scope": null,
+    "escapedName": "react-native-parallax-header",
+    "name": "react-native-parallax-header",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "http://registry.npmjs.org/react-native-parallax-header/-/react-native-parallax-header-1.0.5.tgz",
+  "_shasum": "1dfe1275ce48e8b2bdc77d097b78cfc3d5874bb1",
+  "_shrinkwrap": null,
+  "_spec": "react-native-parallax-header",
+  "_where": "C:\\Users\\epapadaki\\IdeaProjects\\mynet-mobile\\mynet",
+  "author": {
+    "name": "Chiew Carol"
+  },
+  "bugs": {
+    "url": "https://github.com/kyaroru/RNParallax/issues"
+  },
+  "dependencies": {},
   "description": "A react native scroll view component with Parallax header :p",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "1dfe1275ce48e8b2bdc77d097b78cfc3d5874bb1",
+    "tarball": "https://registry.npmjs.org/react-native-parallax-header/-/react-native-parallax-header-1.0.5.tgz"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kyaroru/RNParallax.git"
-  },
+  "gitHead": "6f4be391118a7bb11d1a483b9ae494b95adba104",
+  "homepage": "https://github.com/kyaroru/RNParallax#readme",
   "keywords": [
     "parallax",
     "react-native-parallax",
     "header",
     "scrollview"
   ],
-  "author": "Chiew Carol",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kyaroru/RNParallax/issues"
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "kyaroru",
+      "email": "kyaroru@outlook.com"
+    }
+  ],
+  "name": "react-native-parallax-header",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyaroru/RNParallax.git"
   },
-  "homepage": "https://github.com/kyaroru/RNParallax#readme"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.5"
 }
