@@ -87,6 +87,7 @@ class RNParallax extends Component {
         scrollY: new Animated.Value(0),
         offsetTop: 0
     };
+    this.scrollLower = this.scrollLower.bind(this);
   }
 
   getHeaderMaxHeight() {
@@ -163,6 +164,14 @@ class RNParallax extends Component {
       outputRange: [5, 0, 0],
       extrapolate: 'clamp',
     });
+  }
+
+  scrollLower() {
+      console.log('i am here');
+      setTimeout(() => {
+        this.refs._scrollView._component.scrollTo({x: 0, y: this.state.offsetTop + 100, animated: true});
+      }, 100);
+
   }
 
   renderHeaderTitle() {
@@ -298,23 +307,27 @@ class RNParallax extends Component {
     const { renderContent, scrollEventThrottle } = this.props;
 
     return (
-      <Animated.ScrollView
-        style={styles.scrollView}
-        scrollEventThrottle={scrollEventThrottle}
-        showsVerticalScrollIndicator={false}
-        onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-            {
-              listener: event => {
-                this.setState({ offsetTop: event.nativeEvent.contentOffset.y })
-              },
-            },
-          )}
-      >
-        <View style={{ marginTop: this.getHeaderMaxHeight() }}>
-          {renderContent()}
-        </View>
-      </Animated.ScrollView>
+        <Animated.ScrollView
+            style={styles.scrollView}
+            scrollEventThrottle={scrollEventThrottle}
+            ref={'_scrollView'}
+            bounces={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ flexGrow: 1 }}
+            onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+                {
+                    listener: event => {
+                        this.setState({ offsetTop: event.nativeEvent.contentOffset.y })
+                    },
+                },
+            )}
+        >
+            <View style={{ marginTop: this.getHeaderMaxHeight() }}>
+                {renderContent()}
+            </View>
+
+        </Animated.ScrollView>
     );
   }
 
