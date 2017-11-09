@@ -190,9 +190,7 @@ class RNParallax extends Component {
           },
         ]}
       >
-        <Text style={[styles.headerText, titleStyle]}>
           {title}
-        </Text>
       </Animated.View>
     );
   }
@@ -237,7 +235,7 @@ class RNParallax extends Component {
                     transform: [{ translateY: imageTranslate }, { scale: imageScale }],
                 },
                 ]}
-                source={{uri: backgroundImage}}
+                source={this.props.backgroundImageWithUri ? {uri: backgroundImage} : require('../../src/assets/img/news_noimage_placeholder.png')}
             />
         </View>
     );
@@ -350,13 +348,14 @@ RNParallax.propTypes = {
   backgroundColor: PropTypes.string,
   backgroundImage: PropTypes.string,
   navbarColor: PropTypes.string,
-  title: PropTypes.string,
+  title: PropTypes.func,
   titleStyle: PropTypes.number,
   headerMaxHeight: PropTypes.number,
   headerMinHeight: PropTypes.number,
   scrollEventThrottle: PropTypes.number,
   extraScrollHeight: PropTypes.number,
   backgroundImageScale: PropTypes.number,
+  backgroundImageWithUri: PropTypes.bool
 };
 
 RNParallax.defaultProps = {
@@ -364,13 +363,14 @@ RNParallax.defaultProps = {
   navbarColor: DEFAULT_NAVBAR_COLOR,
   backgroundColor: DEFAULT_BACKGROUND_COLOR,
   backgroundImage: null,
-  title: '',
+  title: () => <View />,
   titleStyle: styles.headerText,
   headerMaxHeight: DEFAULT_HEADER_MAX_HEIGHT,
   headerMinHeight: DEFAULT_HEADER_MIN_HEIGHT,
   scrollEventThrottle: SCROLL_EVENT_THROTTLE,
   extraScrollHeight: DEFAULT_EXTRA_SCROLL_HEIGHT,
   backgroundImageScale: DEFAULT_BACKGROUND_IMAGE_SCALE,
+  backgroundImageWithUri: true
 };
 
 export default RNParallax;
