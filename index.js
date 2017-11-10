@@ -84,8 +84,8 @@ class RNParallax extends Component {
   constructor() {
     super();
     this.state = {
-        scrollY: new Animated.Value(0),
-        offsetTop: 0
+      scrollY: new Animated.Value(0),
+      offsetTop: 0
     };
     this.scrollLower = this.scrollLower.bind(this);
   }
@@ -115,7 +115,7 @@ class RNParallax extends Component {
   }
 
   getInputRange() {
-    return [-this.getExtraScrollHeight(), 0,  this.getHeaderScrollDistance()];
+    return [-this.getExtraScrollHeight(), 0, this.getHeaderScrollDistance()];
   }
 
   getHeaderHeight() {
@@ -167,11 +167,15 @@ class RNParallax extends Component {
   }
 
   scrollLower() {
-      console.log('i am here');
-      setTimeout(() => {
-        this.refs._scrollView._component.scrollTo({x: 0, y: this.state.offsetTop + 100, animated: true});
-      }, 100);
+    setTimeout(() => {
+      this.refs._scrollView._component.scrollTo({ x: 0, y: this.state.offsetTop + 100, animated: true });
+    }, 100);
+  }
 
+  scrollHigher() {
+    setTimeout(() => {
+      this.refs._scrollView._component.scrollTo({ x: 0, y: this.state.offsetTop - 1, animated: true });
+    }, 300);
   }
 
   renderHeaderTitle() {
@@ -190,7 +194,9 @@ class RNParallax extends Component {
           },
         ]}
       >
+        <Text style={[styles.headerText, titleStyle]}>
           {title}
+        </Text>
       </Animated.View>
     );
   }
@@ -219,25 +225,25 @@ class RNParallax extends Component {
     const imageScale = this.getImageScale();
 
     return (
-        <View>
-            <LinearGradient
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                    colors={['#000000FF', '#ffffff11']}
-                    style={{ width: '100%', height: 100, position: 'absolute', zIndex: 1 }}
-            />
-            <Animated.Image
-                style={[
-                styles.backgroundImage,
-                {
-                    height: this.getHeaderMaxHeight(),
-                    opacity: imageOpacity,
-                    transform: [{ translateY: imageTranslate }, { scale: imageScale }],
-                },
-                ]}
-                source={this.props.backgroundImageWithUri ? {uri: backgroundImage} : require('../../src/assets/img/news_noimage_placeholder.png')}
-            />
-        </View>
+      <View>
+        <LinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          colors={['#000000FF', '#ffffff11']}
+          style={{ width: '100%', height: 100, position: 'absolute', zIndex: 1 }}
+        />
+        <Animated.Image
+          style={[
+            styles.backgroundImage,
+            {
+              height: this.getHeaderMaxHeight(),
+              opacity: imageOpacity,
+              transform: [{ translateY: imageTranslate }, { scale: imageScale }],
+            },
+          ]}
+          source={{ uri: backgroundImage }}
+        />
+      </View>
     );
   }
 
@@ -265,18 +271,18 @@ class RNParallax extends Component {
     const navBarOpacity = this.getNavBarOpacity();
 
     return (
-        <Animated.Image
-            style={[
-            styles.header,
-            {
-                height: this.getHeaderHeight(),
-                backgroundColor: navbarColor,
-                opacity: navBarOpacity,
-                width: '100%'
-            },
-            ]}
-            source={require('../../src/assets/img/linear-gradient-news.png')}
-        />
+      <Animated.Image
+        style={[
+          styles.header,
+          {
+            height: this.getHeaderHeight(),
+            backgroundColor: navbarColor,
+            opacity: navBarOpacity,
+            width: '100%'
+          },
+        ]}
+        source={require('../../src/assets/img/linear-gradient-news.png')}
+      />
     );
   }
 
@@ -305,27 +311,27 @@ class RNParallax extends Component {
     const { renderContent, scrollEventThrottle } = this.props;
 
     return (
-        <Animated.ScrollView
-            style={styles.scrollView}
-            scrollEventThrottle={scrollEventThrottle}
-            ref={'_scrollView'}
-            bounces={false}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ flexGrow: 1 }}
-            onScroll={Animated.event(
-                [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-                {
-                    listener: event => {
-                        this.setState({ offsetTop: event.nativeEvent.contentOffset.y })
-                    },
-                },
-            )}
-        >
-            <View style={{ marginTop: this.getHeaderMaxHeight() }}>
-                {renderContent()}
-            </View>
+      <Animated.ScrollView
+        style={styles.scrollView}
+        scrollEventThrottle={scrollEventThrottle}
+        ref={'_scrollView'}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+          {
+            listener: event => {
+              this.setState({ offsetTop: event.nativeEvent.contentOffset.y })
+            },
+          },
+        )}
+      >
+        <View style={{ marginTop: this.getHeaderMaxHeight() }}>
+          {renderContent()}
+        </View>
 
-        </Animated.ScrollView>
+      </Animated.ScrollView>
     );
   }
 
@@ -348,14 +354,13 @@ RNParallax.propTypes = {
   backgroundColor: PropTypes.string,
   backgroundImage: PropTypes.string,
   navbarColor: PropTypes.string,
-  title: PropTypes.func,
+  title: PropTypes.string,
   titleStyle: PropTypes.number,
   headerMaxHeight: PropTypes.number,
   headerMinHeight: PropTypes.number,
   scrollEventThrottle: PropTypes.number,
   extraScrollHeight: PropTypes.number,
   backgroundImageScale: PropTypes.number,
-  backgroundImageWithUri: PropTypes.bool
 };
 
 RNParallax.defaultProps = {
@@ -363,14 +368,13 @@ RNParallax.defaultProps = {
   navbarColor: DEFAULT_NAVBAR_COLOR,
   backgroundColor: DEFAULT_BACKGROUND_COLOR,
   backgroundImage: null,
-  title: () => <View />,
+  title: '',
   titleStyle: styles.headerText,
   headerMaxHeight: DEFAULT_HEADER_MAX_HEIGHT,
   headerMinHeight: DEFAULT_HEADER_MIN_HEIGHT,
   scrollEventThrottle: SCROLL_EVENT_THROTTLE,
   extraScrollHeight: DEFAULT_EXTRA_SCROLL_HEIGHT,
   backgroundImageScale: DEFAULT_BACKGROUND_IMAGE_SCALE,
-  backgroundImageWithUri: true
 };
 
 export default RNParallax;
