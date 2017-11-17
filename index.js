@@ -101,7 +101,7 @@ class RNParallax extends Component {
   }
 
   getHeaderScrollDistance() {
-    return this.getHeaderMaxHeight() - this.getHeaderMinHeight();
+    return (this.props.hasImage ? this.getHeaderMaxHeight() : this.getHeaderMinHeight()) - this.getHeaderMinHeight();
   }
 
   getExtraScrollHeight() {
@@ -121,7 +121,7 @@ class RNParallax extends Component {
   getHeaderHeight() {
     return this.state.scrollY.interpolate({
       inputRange: this.getInputRange(),
-      outputRange: [this.getHeaderMaxHeight() + this.getExtraScrollHeight(), this.getHeaderMaxHeight(), this.getHeaderMinHeight()],
+      outputRange: [this.props.hasImage ? this.getHeaderMaxHeight() : this.getHeaderMinHeight() + this.getExtraScrollHeight(), this.props.hasImage ? this.getHeaderMaxHeight() : this.getHeaderMinHeight(), this.getHeaderMinHeight()],
       extrapolate: 'clamp',
     });
   }
@@ -167,13 +167,12 @@ class RNParallax extends Component {
   }
 
   scrollLower() {
-      console.log('i am here');
       setTimeout(() => {
         this.refs._scrollView._component.scrollTo({x: 0, y: this.state.offsetTop + 100, animated: true});
       }, 100);
 
   }
-  
+
   scrollHigher() {
     setTimeout(() => {
       this.refs._scrollView._component.scrollTo({ x: 0, y: this.state.offsetTop - 1, animated: true });
@@ -236,12 +235,12 @@ class RNParallax extends Component {
                 style={[
                 styles.backgroundImage,
                 {
-                    height: this.getHeaderMaxHeight(),
+                    height: this.props.hasImage ? this.getHeaderMaxHeight() : this.getHeaderMinHeight(),
                     opacity: imageOpacity,
                     transform: [{ translateY: imageTranslate }, { scale: imageScale }],
                 },
                 ]}
-                source={this.props.backgroundImageWithUri ? {uri: backgroundImage} : require('../../src/assets/img/news_noimage_placeholder.png')}
+                source={this.props.backgroundImageWithUri ? {uri: backgroundImage} : null}
             />
         </View>
     );
@@ -257,7 +256,7 @@ class RNParallax extends Component {
     return (
       <Animated.View
         style={{
-          height: this.getHeaderMaxHeight(),
+          height: this.props.hasImage ? this.getHeaderMaxHeight() : this.getHeaderMinHeight(),
           backgroundColor,
           opacity: imageOpacity,
           transform: [{ translateY: imageTranslate }, { scale: imageScale }],
@@ -268,7 +267,7 @@ class RNParallax extends Component {
 
   renderNavbarBackground() {
     const { navbarColor } = this.props;
-    const navBarOpacity = this.getNavBarOpacity();
+    const navBarOpacity = this.props.hasImage ? this.getNavBarOpacity() : 1;
 
     return (
         <Animated.Image
@@ -287,7 +286,7 @@ class RNParallax extends Component {
   }
 
   renderHeaderBackground() {
-    const { backgroundImage, backgroundColor } = this.props;
+    const { backgroundImage, backgroundColor, hasImage } = this.props;
     const imageOpacity = this.getImageOpacity();
 
     return (
@@ -327,7 +326,7 @@ class RNParallax extends Component {
                 },
             )}
         >
-            <View style={{ marginTop: this.getHeaderMaxHeight() }}>
+            <View style={{ marginTop: this.props.hasImage ? this.getHeaderMaxHeight() : this.getHeaderMinHeight() }}>
                 {renderContent()}
             </View>
 
@@ -340,8 +339,7 @@ class RNParallax extends Component {
       <View style={styles.container}>
         {this.renderScrollView()}
         {this.renderNavbarBackground()}
-        {this.renderHeaderBackground()}
-        {this.renderHeaderTitle()}
+        {this.props.hasImage && this.renderHeaderBackground()}
         {this.renderHeaderForeground()}
       </View>
     );
@@ -361,7 +359,8 @@ RNParallax.propTypes = {
   scrollEventThrottle: PropTypes.number,
   extraScrollHeight: PropTypes.number,
   backgroundImageScale: PropTypes.number,
-  backgroundImageWithUri: PropTypes.bool
+  backgroundImageWithUri: PropTypes.bool,
+  hasImage: PropTypes.bool
 };
 
 RNParallax.defaultProps = {
@@ -376,7 +375,8 @@ RNParallax.defaultProps = {
   scrollEventThrottle: SCROLL_EVENT_THROTTLE,
   extraScrollHeight: DEFAULT_EXTRA_SCROLL_HEIGHT,
   backgroundImageScale: DEFAULT_BACKGROUND_IMAGE_SCALE,
-  backgroundImageWithUri: true
+  backgroundImageWithUri: true,
+  hasImage: false
 };
 
 export default RNParallax;
