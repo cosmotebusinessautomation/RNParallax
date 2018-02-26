@@ -90,6 +90,12 @@ class RNParallax extends Component {
     this.scrollLower = this.scrollLower.bind(this);
   }
 
+  componentDidMount() {
+    setTimeout(() => {
+      this.refs._scrollView._component.scrollTo({x: 0, y: -20, animated: false});
+    }, 100);
+  }
+
   getHeaderMaxHeight() {
     const { headerMaxHeight } = this.props;
     return headerMaxHeight;
@@ -311,7 +317,7 @@ class RNParallax extends Component {
 
     return (
         <Animated.ScrollView
-            style={styles.scrollView}
+            style={[styles.scrollView]}
             scrollEventThrottle={scrollEventThrottle}
             ref={'_scrollView'}
             bounces={false}
@@ -327,7 +333,9 @@ class RNParallax extends Component {
             )}
         >
             <View style={{ marginTop: this.props.hasImage ? this.getHeaderMaxHeight() : this.getHeaderMinHeight() }}>
+                <View style={{marginTop: Platform.OS === "android" ? 0: -20}}>
                 {renderContent()}
+                </View>
             </View>
 
         </Animated.ScrollView>
