@@ -9,7 +9,7 @@ import {
   Text,
   View,
   Dimensions,
-  Image
+  Image, TouchableOpacity
 } from 'react-native';
 
 const {
@@ -88,12 +88,6 @@ class RNParallax extends Component {
         offsetTop: 0
     };
     this.scrollLower = this.scrollLower.bind(this);
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.refs._scrollView._component.scrollTo({x: 0, y: -20, animated: false});
-    }, 100);
   }
 
   getHeaderMaxHeight() {
@@ -237,6 +231,8 @@ class RNParallax extends Component {
                     colors={['#000000FF', '#ffffff11']}
                     style={{ width: '100%', height: 100, position: 'absolute', zIndex: 1 }}
             />
+
+            <TouchableOpacity onPress={()=> {this.props.onMainImagePress()}} style={{zIndex: 3, position: 'absolute',top: 0,  width: '100%', height: 500}} />
             <Animated.Image
                 style={[
                 styles.backgroundImage,
@@ -317,7 +313,7 @@ class RNParallax extends Component {
 
     return (
         <Animated.ScrollView
-            style={[styles.scrollView]}
+            style={styles.scrollView}
             scrollEventThrottle={scrollEventThrottle}
             ref={'_scrollView'}
             bounces={false}
@@ -333,9 +329,7 @@ class RNParallax extends Component {
             )}
         >
             <View style={{ marginTop: this.props.hasImage ? this.getHeaderMaxHeight() : this.getHeaderMinHeight() }}>
-                <View style={{marginTop: Platform.OS === "android" ? 0: -20}}>
                 {renderContent()}
-                </View>
             </View>
 
         </Animated.ScrollView>
@@ -368,7 +362,8 @@ RNParallax.propTypes = {
   extraScrollHeight: PropTypes.number,
   backgroundImageScale: PropTypes.number,
   backgroundImageWithUri: PropTypes.bool,
-  hasImage: PropTypes.bool
+  hasImage: PropTypes.bool,
+  onMainImagePress: PropTypes.func
 };
 
 RNParallax.defaultProps = {
