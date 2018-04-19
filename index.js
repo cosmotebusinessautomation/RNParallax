@@ -11,6 +11,7 @@ import {
   Dimensions,
   Image, TouchableOpacity
 } from 'react-native';
+import { isIphoneX } from '../../src/utils';
 
 const {
   height: SCREEN_HEIGHT,
@@ -88,6 +89,12 @@ class RNParallax extends Component {
         offsetTop: 0
     };
     this.scrollLower = this.scrollLower.bind(this);
+  }
+  
+  componentDidMount() {
+    setTimeout(() => {
+      this.refs._scrollView._component.scrollTo({x: 0, y: isIphoneX ? -44:-20, animated: false});
+    }, 100);
   }
 
   getHeaderMaxHeight() {
@@ -329,7 +336,9 @@ class RNParallax extends Component {
             )}
         >
             <View style={{ marginTop: this.props.hasImage ? this.getHeaderMaxHeight() : this.getHeaderMinHeight() }}>
+                <View style={{marginTop: Platform.OS === "android" ? 0: isIphoneX? -44 : -20}}>
                 {renderContent()}
+                </View>
             </View>
 
         </Animated.ScrollView>
