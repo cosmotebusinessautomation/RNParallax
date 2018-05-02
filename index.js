@@ -93,7 +93,7 @@ class RNParallax extends Component {
   
   componentDidMount() {
     setTimeout(() => {
-      this.refs._scrollView._component.scrollTo({x: 0, y: isIphoneX ? -44:-20, animated: false});
+      this.refs._scrollView._component.scrollTo({x: 0, y: isIphoneX(Dimensions.get('window').width, Dimensions.get('window').height)? -44:-20, animated: false});
     }, 100);
   }
 
@@ -336,7 +336,7 @@ class RNParallax extends Component {
             )}
         >
             <View style={{ marginTop: this.props.hasImage ? this.getHeaderMaxHeight() : this.getHeaderMinHeight() }}>
-                <View style={{marginTop: Platform.OS === "android" ? 0: isIphoneX? -44 : -20}}>
+                <View style={{marginTop: Platform.OS === "android" ? 0: isIphoneX(Dimensions.get('window').width, Dimensions.get('window').height)? -44 : -20}}>
                 {renderContent()}
                 </View>
             </View>
