@@ -93,8 +93,14 @@ class RNParallax extends Component {
   
   componentDidMount() {
     setTimeout(() => {
-      this.refs._scrollView._component.scrollTo({x: 0, y: isIphoneX(Dimensions.get('window').width, Dimensions.get('window').height)? -44:-20, animated: false});
-    }, 100);
+        if(this.refs && this.refs._scrollView && this.refs._scrollView._component) {
+            this.refs._scrollView._component.scrollTo({
+                x: 0,
+                y: isIphoneX(Dimensions.get('window').width, Dimensions.get('window').height) ? -44 : -20,
+                animated: false
+            });
+        }
+      }, 100);
   }
 
   getHeaderMaxHeight() {
@@ -276,22 +282,41 @@ class RNParallax extends Component {
 
   renderNavbarBackground() {
     const { navbarColor } = this.props;
+    const { navbarBackgroundImage } = this.props;
     const navBarOpacity = this.props.hasImage ? this.getNavBarOpacity() : 1;
+      if(this.props.navbarColor !== 'transparent'){
+          return (
+              <Animated.View
+                  style={[
+                      styles.header,
+                      {
+                          height: this.getHeaderHeight(),
+                          backgroundColor: navbarColor,
+                          opacity: navBarOpacity,
+                          width: '100%'
+                      },
+                  ]}
+              />
+          );
+      } else {
+          return (
 
-    return (
-        <Animated.Image
-            style={[
-            styles.header,
-            {
-                height: this.getHeaderHeight(),
-                backgroundColor: navbarColor,
-                opacity: navBarOpacity,
-                width: '100%'
-            },
-            ]}
-            source={require('../../src/assets/img/linear-gradient-news.png')}
-        />
-    );
+
+              <Animated.Image
+                  style={[
+                      styles.header,
+                      {
+                          height: this.getHeaderHeight(),
+                          backgroundColor: navbarColor,
+                          opacity: navBarOpacity,
+                          width: '100%'
+                      },
+                  ]}
+                  source={navbarBackgroundImage}
+              />
+          );
+
+      }
   }
 
   renderHeaderBackground() {
@@ -372,7 +397,8 @@ RNParallax.propTypes = {
   backgroundImageScale: PropTypes.number,
   backgroundImageWithUri: PropTypes.bool,
   hasImage: PropTypes.bool,
-  onMainImagePress: PropTypes.func
+  onMainImagePress: PropTypes.func,
+  navbarBackgroundImage: PropTypes.func
 };
 
 RNParallax.defaultProps = {
@@ -388,7 +414,9 @@ RNParallax.defaultProps = {
   extraScrollHeight: DEFAULT_EXTRA_SCROLL_HEIGHT,
   backgroundImageScale: DEFAULT_BACKGROUND_IMAGE_SCALE,
   backgroundImageWithUri: true,
-  hasImage: false
+  hasImage: false,
+  navbarBackgroundImage: require('../../src/assets/img/linear-gradient-news.png'),
+
 };
 
 export default RNParallax;
