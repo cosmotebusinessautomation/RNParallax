@@ -231,7 +231,7 @@ class RNParallax extends Component {
   }
 
   renderBackgroundImage() {
-    const { backgroundImage } = this.props;
+    const { backgroundImage , backgroundImageStyle} = this.props;
     const imageOpacity = this.getImageOpacity();
     const imageTranslate = this.getImageTranslate();
     const imageScale = this.getImageScale();
@@ -248,7 +248,7 @@ class RNParallax extends Component {
             <TouchableOpacity onPress={()=> {this.props.onMainImagePress()}} style={{zIndex: 3, position: 'absolute',top: 0,  width: '100%', height: 500}} />
             <Animated.Image
                 style={[
-                styles.backgroundImage,
+                styles.backgroundImage, this.props.backgroundImageStyle,
                 {
                     height: this.props.hasImage ? this.getHeaderMaxHeight() : this.getHeaderMinHeight(),
                     opacity: imageOpacity,
@@ -395,6 +395,7 @@ RNParallax.propTypes = {
   scrollEventThrottle: PropTypes.number,
   extraScrollHeight: PropTypes.number,
   backgroundImageScale: PropTypes.number,
+  backgroundImageStyle:  PropTypes.object,
   backgroundImageWithUri: PropTypes.bool,
   hasImage: PropTypes.bool,
   onMainImagePress: PropTypes.func,
@@ -413,6 +414,7 @@ RNParallax.defaultProps = {
   scrollEventThrottle: SCROLL_EVENT_THROTTLE,
   extraScrollHeight: DEFAULT_EXTRA_SCROLL_HEIGHT,
   backgroundImageScale: DEFAULT_BACKGROUND_IMAGE_SCALE,
+  backgroundImageStyle:  {},
   backgroundImageWithUri: true,
   hasImage: false,
   navbarBackgroundImage: require('../../src/assets/img/linear-gradient-news.png'),
