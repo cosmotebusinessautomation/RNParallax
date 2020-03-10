@@ -192,6 +192,12 @@ class RNParallax extends Component {
     }, 300);
   }
 
+  scrollToBottom(isAnimated = true){
+    setTimeout(() => {
+      this.refs._scrollView._component.scrollToEnd({animated: isAnimated});
+    }, 300);
+  }
+
   renderHeaderTitle() {
     const { title, titleStyle } = this.props;
     const titleTranslate = this.getTitleTranslate();
@@ -417,8 +423,7 @@ RNParallax.defaultProps = {
   backgroundImageStyle:  {},
   backgroundImageWithUri: true,
   hasImage: false,
-  navbarBackgroundImage: require('../../src/assets/img/linear-gradient-news.png'),
-
+  navbarBackgroundImage: require('../../src/assets/img/linear-gradient-news.png')
 };
 
 export default RNParallax;
